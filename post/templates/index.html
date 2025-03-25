@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Комментарии</title>
+    <link rel="stylesheet" href="{% static "css/style.css" %}" />
+</head>
+<body>
+
+<h1>Посты</h1>
+<a href="{% url 'add_post' %}">Добавить пост</a>
+
+{% for comment in page_obj %}
+    <div class="comment">
+        <strong>{{ comment.user_name }}</strong> ({{ comment.email }}) - {{ comment.created_at }}
+        <p>{{ comment.text }}</p>
+
+        {% if comment.image %}
+            <div class="comment-image">
+                <img src="{{ comment.image.url }}" alt="Image for {{ comment.user_name }}">
+            </div>
+        {% endif %}
+
+        <a href="{% url 'add_post_reply' comment.id %}">Ответить</a>
+
+
+        {% include 'replies.html' with replies=comment.replies.all %}
+    </div>
+{% endfor %}
+
+<div>
+    {% if page_obj.has_previous %}
+        <a href="?page=1">Первая</a>
+        <a href="?page={{ page_obj.previous_page_number }}">Назад</a>
+    {% endif %}
+
+    <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Вперед</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
+    {% endif %}
+</div>
+
+</body>
+</html>

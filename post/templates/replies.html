@@ -1,0 +1,18 @@
+
+{% for reply in replies %}
+    <div class="comment reply">
+        <strong>{{ reply.user_name }}</strong> ({{ reply.email }}) - {{ reply.created_at }}
+        <p>{{ reply.text }}</p>
+
+        {% if reply.image %}
+            <div class="comment-image">
+                <img src="{{ reply.image.url }}" alt="Image for {{ reply.user_name }}">
+            </div>
+        {% endif %}
+
+        <a href="{% url 'add_post_reply' reply.id %}">Ответить</a>
+
+     
+        {% include 'replies.html' with replies=reply.replies.all %}
+    </div>
+{% endfor %}
