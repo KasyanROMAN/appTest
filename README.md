@@ -29,6 +29,16 @@
 ### 1. Клонировать репозиторий
 
 ```bash
-git clone https://github.com/your_username/your_project.git
+git clone https://github.com/KasyanROMAN/appTest
 cd your_project
 docker-compose up --build
+
+```Запуск сервера
+http://localhost:8000
+
+
+```gunicorn
+gunicorn app.wsgi:application
+
+```Запуск сервера
+http://localhost:8000
