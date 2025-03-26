@@ -2,7 +2,7 @@ from django.db import models
 from django.core.cache import cache
 from django_redis import get_redis_connection
 
-class Post(models.Model):
+class Comment(models.Model):
     user_name = models.CharField(max_length=50, db_index=True)
     email = models.EmailField(db_index=True)
     home_page = models.URLField(blank=True, null=True)

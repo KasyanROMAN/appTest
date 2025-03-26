@@ -26,3 +26,12 @@ services:
       - redis
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "80:80"
+    depends_on:
+      - web

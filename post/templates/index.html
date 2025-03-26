@@ -8,8 +8,8 @@
 </head>
 <body>
 
-<h1>Посты</h1>
-<a href="{% url 'add_post' %}">Добавить пост</a>
+<h1>Комментарии</h1>
+<a href="{% url 'add_comment' %}">Добавить коментарий</a>
 
 {% for comment in page_obj %}
     <div class="comment">
@@ -22,7 +22,7 @@
             </div>
         {% endif %}
 
-        <a href="{% url 'add_post_reply' comment.id %}">Ответить</a>
+        <a href="{% url 'add_comment_reply' comment.id %}">Ответить</a>
 
 
         {% include 'replies.html' with replies=comment.replies.all %}

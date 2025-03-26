@@ -44,6 +44,9 @@ INSTALLED_APPS = [
 
 ]
 
+ALLOWED_HOSTS = ['*']
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -105,14 +108,12 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',
     }
 }
+
 
 
 # Internationalization
@@ -148,18 +149,22 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 
 
-ASGI_APPLICATION = "your_project.asgi.application"
+ASGI_APPLICATION = "app.asgi.application"
 
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'  
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],  
         },
     },
 }
+
+

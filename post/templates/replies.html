@@ -10,7 +10,7 @@
             </div>
         {% endif %}
 
-        <a href="{% url 'add_post_reply' reply.id %}">Ответить</a>
+        <a href="{% url 'add_comment_reply' reply.id %}">Ответить</a>
 
      
         {% include 'replies.html' with replies=reply.replies.all %}

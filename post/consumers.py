@@ -1,41 +1,39 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
+from .models import Comment
+from asgiref.sync import sync_to_async
 
-class ChatConsumer(AsyncWebsocketConsumer):
+class PostConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        self.room_group_name = "chat_room"
-
-        # Добавляем пользователя в группу WebSocket
+        self.room_group_name = "posts"
         await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
         )
+
         await self.accept()
 
     async def disconnect(self, close_code):
-        # Удаляем пользователя из группы
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
         )
 
     async def receive(self, text_data):
-        data = json.loads(text_data)
-        message = data["message"]
+        text_data_json = json.loads(text_data)
+        post_id = text_data_json['post_id']
+        post = await sync_to_async(Comment.objects.get)(id=post_id)
 
-        # Отправляем сообщение в группу
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                "type": "chat_message",
-                "message": message
-            }
-        )
 
-    async def chat_message(self, event):
-        message = event["message"]
-
-        # Отправляем сообщение в WebSocket
         await self.send(text_data=json.dumps({
-            "message": message
+            'post': post.content 
+        }))
+
+
+    async def send_post_update(self, event):
+        post = event['post']
+
+
+        await self.send(text_data=json.dumps({
+            'post': post
         }))

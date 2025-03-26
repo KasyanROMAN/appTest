@@ -1,13 +1,13 @@
 from django import forms
-from .models import Post
+from .models import Comment
 from captcha.fields import CaptchaField
 from django.utils.html import strip_tags
 
-class PostForm(forms.ModelForm):
+class CommentForm(forms.ModelForm):
     captcha = CaptchaField()
 
     class Meta:
-        model = Post
+        model = Comment
         fields = ['user_name', 'email', 'home_page', 'text', 'captcha',]
 
     def clean_text(self):
