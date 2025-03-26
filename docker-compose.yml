@@ -17,7 +17,7 @@ services:
     image: "redis:latest"
     restart: always
     ports:
-      - "6380:6379"
+      - "6381:6379"
 
   celery:
     build: .

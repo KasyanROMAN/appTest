@@ -12,6 +12,7 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+        db_table = 'comment'
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
